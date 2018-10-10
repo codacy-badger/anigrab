@@ -12,9 +12,10 @@
             <div class="container text-center">
                 <h1 class="display-4">ANGRAB.PY</h1>
                 <p class="lead">Anigrab.Py is a simple tools for scraping download link anime from some website</p>
-                <form action=""accept-charset="utf-8">
+                <form action="" method="POST" accept-charset="utf-8">
                     <div class="form-row">
                         <div class="col-7">
+                            {{ form.csrf_token }}
                             {{ form.keyword(class="form-control") }}
                         </div>
                         <div class="col">
@@ -37,6 +38,7 @@
                 </thead>
                 <tbody>
                     {% for website in data %}
+                        {% if data[website]|length >= 1 %}
                         <tr>
                             <td>{{ website }}</td>
                             <td>
@@ -51,6 +53,7 @@
                                 </ul>
                             </td>
                         </tr>
+                        {% endif %}
                     {% endfor %}
                 </tbody>
             </table>

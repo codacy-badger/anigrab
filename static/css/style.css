@@ -22,3 +22,10 @@ form {
 .table .url {
     width: 70%;
 }
+ul li {
+    list-style: none;
+}
+
+ul li a {
+    color: #fff;
+}

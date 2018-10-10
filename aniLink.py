@@ -47,6 +47,7 @@ class animeLink:
             "Connection": "keep-alive",
             "User-Agent": "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)"
         }
+
     def search(self, keyword):
         self.query = {
             "animesave": {
