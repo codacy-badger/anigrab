@@ -1,0 +1,24 @@
+.container-fluid {
+    padding: 0px;
+}
+form {
+    margin-left: 10%;
+    margin-right: 10%;
+    width: 80%;
+}
+.form-control {
+    border-radius: 0px;
+}
+.jumbotron {
+    height: 400px;
+}
+.result {
+    margin-top: -150px;
+}
+.table .website {
+    width: 30%;
+    text-align: center;
+}
+.table .url {
+    width: 70%;
+}
