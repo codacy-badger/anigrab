@@ -1,7 +1,7 @@
-from aniLink import animeLink
-from flask import Flask, render_template, request
+from lib.aniLink import animeLink
+from flask import Flask, render_template, request, jsonify
 from aniForm import aniForm
-from colorama import Fore, Back, Style
+from colorama import Fore, Back
 import time
 import random
 import binascii
@@ -16,31 +16,22 @@ def getData(website, keyword):
     anime.search(keyword)
     if website == "animesave":
         anime.website("animesave")
-        # return anime.result["animesave"]
     elif website == "meguminime":
         anime.website("meguminime")
-        # return anime.result["meguminime"]
     elif website == "drivenime":
         anime.website("drivenime")
-        # return anime.result["drivenime"]
     elif website == "bakacan":
         anime.website("bakacan")
-        # return anime.result["bakacan"]
     elif website == "meownime":
         anime.website("meownime")
-        # return anime.result["meownime"]
     elif website == "wibudesu":
         anime.website("wibudesu")
-        # return anime.result["wibudesu"]
     elif website == "kusonime":
         anime.website("kusonime")
-        # return anime.result["kusonime"]
     elif website == "awbatch":
         anime.website("awbatch")
-        # return anime.result["awbatch"]
     elif website == "meowbatch":
         anime.website("meowbatch")
-        # return anime.result["meowbatch"]
     else:
         listSite = [
             "animesave",
@@ -63,6 +54,7 @@ def getData(website, keyword):
             t.join()
     return anime.result
 
+
 @app.before_request
 def bef():
     for a in anime.result:
@@ -80,21 +72,31 @@ def vIndex():
             data = getData(website=form.listSite.data, keyword=form.keyword.data)
             waktu = time.strftime("%d-%m-%Y %H:%M:%S", time.localtime())
             context["data"] = data
-            # for site in data:
-            #     for b in data[site]:
-            #         if "error" in b:
-            #             print("{bRed}[{website}][{time}] {log}{bReset}".format(
-            #                 website=site, time=waktu, log=b["error"], bRed=Back.RED, bReset=Back.RESET)
-            #             )
-            #         else:
-            #             print("{fYellow}[{website}]{fReset}{fGreen}[{time}]{fReset} {log}".format(
-            #                 website=site, time=waktu, log=b["title"], fGreen=Fore.GREEN, fYellow=Fore.YELLOW, fReset=Fore.RESET)
-            #             )
+            for site in data:
+                if len(data[site]) >= 1:
+                    for b in data[site]:
+                        if "error" in b:
+                            print("{bRed}[{website}][{time}] {log}{bReset}".format(
+                                website=site, time=waktu, log=b["error"], bRed=Back.RED, bReset=Back.RESET)
+                            )
+                        else:
+                            print("{fYellow}[{website}]{fReset}{fGreen}[{time}]{fReset} {log}".format(
+                                website=site, time=waktu, log=b["title"], fGreen=Fore.GREEN, fYellow=Fore.YELLOW, fReset=Fore.RESET)
+                            )
             return render_template("index.html", **context)
         else:
             return render_template("index.html", **context)
     else:
         return render_template("index.html", **context)
+
+
+@app.route("/api/v1", methods=["POST"])
+def api():
+    if request.method == "POST":
+        website = request.form["website"]
+        keyword = request.form["keyword"]
+        result = getData(website, keyword)
+        return jsonify(result)
 
 
 if __name__ == "__main__":

@@ -10,7 +10,7 @@
     <div class="container-fluid">
         <div class="jumbotron jumbotron-fluid bg-dark text-light">
             <div class="container text-center">
-                <h1 class="display-4">ANGRAB.PY</h1>
+                <h1 class="display-4">ANIGRAB.PY</h1>
                 <p class="lead">Anigrab.Py is a simple tools for scraping download link anime from some website</p>
                 <form action="" method="POST" accept-charset="utf-8">
                     <div class="form-row">
@@ -47,7 +47,7 @@
                                     {% if "error" in url %}
                                         <li><a href="{{url["error"]}}">{{url["error"]}}</a></li>
                                     {% else %}
-                                        <li><a href="{{url["link"]}}">{{url["title"]}}</a></li>
+                                        <li><a href="{{url["link"]}}" target="blank">{{url["title"]}}</a></li>
                                     {% endif %}
                                 {% endfor %}
                                 </ul>
@@ -60,9 +60,7 @@
         </div>
     </div>
 </body>
-<script>
-<script src="{{ url_for('.static', filename='vendor/jquery/jquery.min.js') }}">
-</script>
+<script src="{{ url_for('.static', filename='vendor/jquery/jquery.min.js') }}"></script>
 <script src="{{ url_for('.static', filename='vendor/popper/popper-1.14.3.min.js') }}"></script>
 <script src="{{ url_for('.static', filename='vendor/bootstrap/js/bootstrap.min.js') }}"></script>
 

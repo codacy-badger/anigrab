@@ -1,11 +1,15 @@
-# from aniLink import animeLink
+import requests
+import json
 
-# anime = animeLink()
-# anime.search("log horizon")
-# data = anime.meowbatch()
-# for a in data:
-#     print(a["link"])
-#     print(a["title"])
 
-uang = 100000000
-print("{:10,.2f}".format(uang))
+url = "http://localhost:5000/api/v1"
+data = {
+    "website": "random",
+    "keyword": "nana"
+}
+
+r = requests.post(url, data=data)
+
+with open("result.txt", "w+") as fw:
+    fw.write(r.text)
+    fw.close()
