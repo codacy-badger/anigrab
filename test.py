@@ -2,10 +2,10 @@ import requests
 import json
 
 
-url = "http://localhost:5000/api/v1"
+url = "http://anigrab.herokuapp.com/api/v1"
 data = {
     "website": "random",
-    "keyword": "nana"
+    "keyword": "nanatsu"
 }
 
 r = requests.post(url, data=data)

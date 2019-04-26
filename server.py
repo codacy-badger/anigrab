@@ -1,15 +1,15 @@
-from lib.aniLink import animeLink
-from flask import Flask, render_template, request, jsonify
+from lib.aniLink import Anigrab
+from flask import (Flask, render_template, request, jsonify)
 from aniForm import aniForm
 from colorama import Fore, Back
-import time
-import random
-import binascii
 import threading
+import binascii
+import random
+import time
 
 app = Flask(__name__)
 app.secret_key = binascii.hexlify(str(random.random()).encode("utf-8"))
-anime = animeLink()
+anime = Anigrab()
 
 
 def getData(website, keyword):
@@ -46,7 +46,7 @@ def getData(website, keyword):
         ]
         threads = list()
         for site in listSite:
-            t = threading.Thread(target=anime.website, args=(site,))
+            t = threading.Thread(target=anime.website, args=(site, ))
             threads.append(t)
         for t in threads:
             t.start()
@@ -77,25 +77,26 @@ def vIndex():
                     for b in data[site]:
                         if "error" in b:
                             print("{bRed}[{website}][{time}] {log}{bReset}".format(
-                                website=site, time=waktu, log=b["error"], bRed=Back.RED, bReset=Back.RESET)
-                            )
+                                website=site,
+                                time=waktu,
+                                log=b["error"],
+                                bRed=Back.RED,
+                                bReset=Back.RESET))
                         else:
-                            print("{fYellow}[{website}]{fReset}{fGreen}[{time}]{fReset} {log}".format(
-                                website=site, time=waktu, log=b["title"], fGreen=Fore.GREEN, fYellow=Fore.YELLOW, fReset=Fore.RESET)
-                            )
-            return render_template("index.html", **context)
-        else:
-            return render_template("index.html", **context)
-    else:
-        return render_template("index.html", **context)
+                            print("{fYellow}[{website}]{fReset}{fGreen}[{time}]{fReset} {log}".
+                                  format(website=site,
+                                         time=waktu,
+                                         log=b["title"],
+                                         fGreen=Fore.GREEN,
+                                         fYellow=Fore.YELLOW,
+                                         fReset=Fore.RESET))
+    return render_template("index.html", **context)
 
 
 @app.route("/api/v1", methods=["POST"])
 def api():
     if request.method == "POST":
-        website = request.form["website"]
-        keyword = request.form["keyword"]
-        result = getData(website, keyword)
+        result = getData(**request.form.to_dict())
         return jsonify(result)
 
 

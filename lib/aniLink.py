@@ -1,22 +1,12 @@
-"""
-author:Nabil
-site:http://github.com/nabil48
-list site
-1.animesave
-2.meguminime
-3.drivenime
-4.bakacan
-5.meownime
-6.wibudesu
-7.kusonime
-8.awbatch
-9.meowbatch
-"""
 import requests
 from bs4 import BeautifulSoup
 
+__author__ = "M Nabil Adani"
+__github__ = "https://github.com/nabil48/"
+__date_create__ = "10/10/2018 02:48 AM"
+__date_modife__ = "26/04/2019 01:27 PM"
 
-class animeLink:
+class Anigrab:
     result = {
         "animesave": [],
         "meguminime": [],
@@ -28,25 +18,23 @@ class animeLink:
         "awbatch": [],
         "meowbatch": []
     }
-
-    def __init__(self):
-        self.url = {
-            "animesave": "http://www.animesave.com/",
-            "meguminime": "http://meguminime.com/",
-            "drivenime": "https://drivenime.com/",
-            "bakacan": "http://bakacan.id/",
-            "meownime": "http://meownime.com/",
-            "wibudesu": "https://wibudesu.com/",
-            "kusonime": "https://kusonime.com/",
-            "awbatch": "http://awbatch.in/",
-            "meowbatch": "http://meowbatch.com"
-        }
-        self.header = {
-            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
-            "Accept-Encoding": "gzip, deflate",
-            "Connection": "keep-alive",
-            "User-Agent": "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)"
-        }
+    url = {
+        "animesave": "http://www.animesave.com/",
+        "meguminime": "http://meguminime.com/",
+        "drivenime": "https://drivenime.com/",
+        "bakacan": "http://bakacan.id/",
+        "meownime": "http://meownime.com/",
+        "wibudesu": "https://wibudesu.com/",
+        "kusonime": "https://kusonime.com/",
+        "awbatch": "http://awbatch.in/",
+        "meowbatch": "http://meowbatch.com"
+    }
+    header = {
+        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+        "Accept-Encoding": "gzip, deflate",
+        "Connection": "keep-alive",
+        "User-Agent": "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)"
+    }
 
     def search(self, keyword):
         self.query = {
@@ -99,17 +87,17 @@ class animeLink:
         if site == "animesave":
             try:
                 cnx = requests.get(
-                    self.url["animesave"],
-                    params=self.query["animesave"],
+                    self.url.get("animesave"),
+                    params=self.query.get("animesave"),
                     headers=self.header
                 )
                 soup = BeautifulSoup(cnx.text, "lxml")
-                div = soup.find(class_="allgreen")
+                div = soup.find("div", attrs={"class":"allgreen"})
                 link = div.find_all("a")
                 for a in link:
                     data = dict()
-                    data["link"] = a["href"]
-                    data["title"] = a["title"]
+                    data["link"] = a.get("href")
+                    data["title"] = a.get("title")
                     self.result["animesave"].append(data)
             except Exception as e:
                 data = dict()
@@ -119,17 +107,17 @@ class animeLink:
         elif site == "meguminime":
             try:
                 cnx = requests.get(
-                    self.url["meguminime"],
-                    params=self.query["meguminime"],
+                    self.url.get("meguminime"),
+                    params=self.query.get("meguminime"),
                     headers=self.header
                 )
                 soup = BeautifulSoup(cnx.text, "lxml")
-                div = soup.find(class_="pst")
+                div = soup.find("div", attrs={"class": "pst"})
                 link = div.find_all("h2")
                 for h2 in link:
                     data = dict()
-                    data["link"] = h2.a["href"]
-                    data["title"] = h2.a["title"]
+                    data["link"] = h2.a.get("href")
+                    data["title"] = h2.a.get("title")
                     self.result["meguminime"].append(data)
             except Exception as e:
                 data = dict()
@@ -138,17 +126,17 @@ class animeLink:
         elif site == "drivenime":
             try:
                 cnx = requests.get(
-                    self.url["drivenime"],
-                    params=self.query["drivenime"],
+                    self.url.get("drivenime"),
+                    params=self.query.get("drivenime"),
                     headers=self.header
                 )
                 soup = BeautifulSoup(cnx.text, "lxml")
-                div = soup.find(id="content_box")
+                div = soup.find("div", attrs={"id":"content_box"})
                 link = div.find_all("h2")
                 for h2 in link:
                     data = dict()
-                    data["link"] = h2.a["href"]
-                    data["title"] = h2.a["title"]
+                    data["link"] = h2.a.get("href")
+                    data["title"] = h2.a.get("title")
                     self.result["drivenime"].append(data)
             except Exception as e:
                 data = dict()
@@ -157,17 +145,17 @@ class animeLink:
         elif site == "bakacan":
             try:
                 cnx = requests.get(
-                    self.url["bakacan"],
-                    params=self.query["bakacan"],
+                    self.url.get("bakacan"),
+                    params=self.query.get("bakacan"),
                     headers=self.header
                 )
                 soup = BeautifulSoup(cnx.text, "lxml")
-                div = soup.find(class_="vinsmokebody")
+                div = soup.find("div", attrs={"class", "vinsmokebody"})
                 link = div.find_all("h2")
                 for h2 in link:
                     data = dict()
-                    data["link"] = h2.a["href"]
-                    data["title"] = h2.a["title"]
+                    data["link"] = h2.a.get("href")
+                    data["title"] = h2.a.get("title")
                     self.result["bakacan"].append(data)
             except Exception as e:
                 data = dict()
@@ -176,17 +164,17 @@ class animeLink:
         elif site == "meownime":
             try:
                 cnx = requests.get(
-                    self.url["meownime"],
-                    params=self.query["meownime"],
+                    self.url.get("meownime"),
+                    params=self.query.get("meownime"),
                     headers=self.header
                 )
                 soup = BeautifulSoup(cnx.text, "lxml")
-                div = soup.find(class_="site-main")
-                link = div.find_all(class_="entry-title")
+                div = soup.find("div",attrs={"class":"site-main"})
+                link = div.find_all("h1", attrs={"class":"entry-title"})
                 for h2 in link:
                     data = dict()
-                    data["link"] = h2.a["href"]
-                    data["title"] = h2.a["title"]
+                    data["link"] = h2.a.get("href")
+                    data["title"] = h2.a.text
                     self.result["meownime"].append(data)
             except Exception as e:
                 data = dict()
@@ -195,17 +183,17 @@ class animeLink:
         elif site == "wibudesu":
             try:
                 cnx = requests.get(
-                    self.url["wibudesu"],
-                    params=self.query["wibudesu"],
+                    self.url.get("wibudesu"),
+                    params=self.query.get("wibudesu"),
                     headers=self.header
                 )
                 soup = BeautifulSoup(cnx.text, "lxml")
-                div = soup.find(class_="rseries")
+                div = soup.find("div", attrs={"class":"rseries"})
                 link = div.find_all("h2")
                 for h2 in link:
                     data = dict()
-                    data["link"] = h2.a["href"]
-                    data["title"] = h2.a["title"]
+                    data["link"] = h2.a.get("href")
+                    data["title"] = h2.a.get("title")
                     self.result["wibudesu"].append(data)
             except Exception as e:
                 data = dict()
@@ -214,17 +202,17 @@ class animeLink:
         elif site == "kusonime":
             try:
                 cnx = requests.get(
-                    self.url["kusonime"],
-                    params=self.query["kusonime"],
+                    self.url.get("kusonime"),
+                    params=self.query.get("kusonime"),
                     headers=self.header
                 )
                 soup = BeautifulSoup(cnx.text, "lxml")
-                div = soup.find(class_="rseries")
+                div = soup.find("div", attrs={"class":"rseries"})
                 link = div.find_all("h2")
                 for h2 in link:
                     data = dict()
-                    data["link"] = h2.a["href"]
-                    data["title"] = h2.a["title"]
+                    data["link"] = h2.a.get("href")
+                    data["title"] = h2.a.get("title")
                     self.result["kusonime"].append(data)
             except Exception as e:
                 data = dict()
@@ -233,17 +221,17 @@ class animeLink:
         elif site == "awbatch":
             try:
                 cnx = requests.get(
-                    self.url["awbatch"],
-                    params=self.query["awbatch"],
+                    self.url.get("awbatch"),
+                    params=self.query.get("awbatch"),
                     headers=self.header
                 )
                 soup = BeautifulSoup(cnx.text, "lxml")
-                div = soup.find(class_="konten-tengah")
+                div = soup.find("div",attrs={"class":"konten-tengah"})
                 link = div.find_all("h2")
                 for h2 in link:
                     data = dict()
-                    data["link"] = h2.a["href"]
-                    data["title"] = h2.a["title"]
+                    data["link"] = h2.a.get("href")
+                    data["title"] = h2.a.get("title")
                     self.result["awbatch"].append(data)
             except Exception as e:
                 data = dict()
@@ -252,16 +240,16 @@ class animeLink:
         elif site == "meowbatch":
             try:
                 cnx = requests.get(
-                    self.url["meowbatch"],
-                    params=self.query["meowbatch"],
+                    self.url.get("meowbatch"),
+                    params=self.query.get("meowbatch"),
                     headers=self.header
                 )
                 soup = BeautifulSoup(cnx.text, "lxml")
-                div = soup.find(class_="post-content-container")
+                div = soup.find("div",attrs={"class":"post-content-container"})
                 link = div.find_all("a", attrs={"class": "post-title"})
                 data = dict()
                 for url in link:
-                    data["link"] = url["href"]
+                    data["link"] = url.get("href")
                     data["title"] = url.h4.text.strip()
                     self.result["meowbatch"].append(data)
             except Exception as e:
