@@ -1,4 +1,4 @@
-from lib.aniLink import Anigrab
+from lib.anigrab import Anigrab
 from flask import (Flask, render_template, request, jsonify)
 from aniForm import aniForm
 from colorama import Fore, Back
@@ -53,7 +53,6 @@ def getData(website, keyword):
         for t in threads:
             t.join()
     return anime.result
-
 
 @app.before_request
 def bef():

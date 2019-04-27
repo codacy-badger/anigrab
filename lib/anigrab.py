@@ -6,6 +6,7 @@ __github__ = "https://github.com/nabil48/"
 __date_create__ = "10/10/2018 02:48 AM"
 __date_modife__ = "26/04/2019 01:27 PM"
 
+
 class Anigrab:
     result = {
         "animesave": [],
@@ -35,6 +36,12 @@ class Anigrab:
         "Connection": "keep-alive",
         "User-Agent": "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)"
     }
+
+    def _request(self, website):
+        result = requests.get(self.url.get(website),
+                              params=self.query.get(website),
+                              headers=self.header)
+        return result
 
     def search(self, keyword):
         self.query = {
@@ -86,16 +93,11 @@ class Anigrab:
         """
         if site == "animesave":
             try:
-                cnx = requests.get(
-                    self.url.get("animesave"),
-                    params=self.query.get("animesave"),
-                    headers=self.header
-                )
-                soup = BeautifulSoup(cnx.text, "lxml")
-                div = soup.find("div", attrs={"class":"allgreen"})
+                soup = BeautifulSoup(self._request(site).text, "lxml")
+                div = soup.find("div", attrs={"class": "allgreen"})
                 link = div.find_all("a")
+                data = dict()
                 for a in link:
-                    data = dict()
                     data["link"] = a.get("href")
                     data["title"] = a.get("title")
                     self.result["animesave"].append(data)
@@ -106,12 +108,7 @@ class Anigrab:
 
         elif site == "meguminime":
             try:
-                cnx = requests.get(
-                    self.url.get("meguminime"),
-                    params=self.query.get("meguminime"),
-                    headers=self.header
-                )
-                soup = BeautifulSoup(cnx.text, "lxml")
+                soup = BeautifulSoup(self._request(site).text, "lxml")
                 div = soup.find("div", attrs={"class": "pst"})
                 link = div.find_all("h2")
                 for h2 in link:
@@ -123,15 +120,11 @@ class Anigrab:
                 data = dict()
                 data["error"] = "404 Not Found"
                 self.result["meguminime"].append(data)
+
         elif site == "drivenime":
             try:
-                cnx = requests.get(
-                    self.url.get("drivenime"),
-                    params=self.query.get("drivenime"),
-                    headers=self.header
-                )
-                soup = BeautifulSoup(cnx.text, "lxml")
-                div = soup.find("div", attrs={"id":"content_box"})
+                soup = BeautifulSoup(self._request(site).text, "lxml")
+                div = soup.find("div", attrs={"id": "content_box"})
                 link = div.find_all("h2")
                 for h2 in link:
                     data = dict()
@@ -142,14 +135,10 @@ class Anigrab:
                 data = dict()
                 data["error"] = "404 Not Found"
                 self.result["drivenime"].append(data)
+
         elif site == "bakacan":
             try:
-                cnx = requests.get(
-                    self.url.get("bakacan"),
-                    params=self.query.get("bakacan"),
-                    headers=self.header
-                )
-                soup = BeautifulSoup(cnx.text, "lxml")
+                soup = BeautifulSoup(self._request(site).text, "lxml")
                 div = soup.find("div", attrs={"class", "vinsmokebody"})
                 link = div.find_all("h2")
                 for h2 in link:
@@ -161,16 +150,12 @@ class Anigrab:
                 data = dict()
                 data["error"] = "404 Not Found"
                 self.result["bakacan"].append(data)
+
         elif site == "meownime":
             try:
-                cnx = requests.get(
-                    self.url.get("meownime"),
-                    params=self.query.get("meownime"),
-                    headers=self.header
-                )
-                soup = BeautifulSoup(cnx.text, "lxml")
-                div = soup.find("div",attrs={"class":"site-main"})
-                link = div.find_all("h1", attrs={"class":"entry-title"})
+                soup = BeautifulSoup(self._request(site).text, "lxml")
+                div = soup.find("div", attrs={"class": "site-main"})
+                link = div.find_all("h1", attrs={"class": "entry-title"})
                 for h2 in link:
                     data = dict()
                     data["link"] = h2.a.get("href")
@@ -180,15 +165,11 @@ class Anigrab:
                 data = dict()
                 data["error"] = "404 Not Found"
                 self.result["meownime"].append(data)
+
         elif site == "wibudesu":
             try:
-                cnx = requests.get(
-                    self.url.get("wibudesu"),
-                    params=self.query.get("wibudesu"),
-                    headers=self.header
-                )
-                soup = BeautifulSoup(cnx.text, "lxml")
-                div = soup.find("div", attrs={"class":"rseries"})
+                soup = BeautifulSoup(self._request(site).text, "lxml")
+                div = soup.find("div", attrs={"class": "rseries"})
                 link = div.find_all("h2")
                 for h2 in link:
                     data = dict()
@@ -199,15 +180,11 @@ class Anigrab:
                 data = dict()
                 data["error"] = "404 Not Found"
                 self.result["wibudesu"].append(data)
+
         elif site == "kusonime":
             try:
-                cnx = requests.get(
-                    self.url.get("kusonime"),
-                    params=self.query.get("kusonime"),
-                    headers=self.header
-                )
-                soup = BeautifulSoup(cnx.text, "lxml")
-                div = soup.find("div", attrs={"class":"rseries"})
+                soup = BeautifulSoup(self._request(site).text, "lxml")
+                div = soup.find("div", attrs={"class": "rseries"})
                 link = div.find_all("h2")
                 for h2 in link:
                     data = dict()
@@ -218,15 +195,11 @@ class Anigrab:
                 data = dict()
                 data["error"] = "404 Not Found"
                 self.result["kusonime"].append(data)
+
         elif site == "awbatch":
             try:
-                cnx = requests.get(
-                    self.url.get("awbatch"),
-                    params=self.query.get("awbatch"),
-                    headers=self.header
-                )
-                soup = BeautifulSoup(cnx.text, "lxml")
-                div = soup.find("div",attrs={"class":"konten-tengah"})
+                soup = BeautifulSoup(self._request(site).text, "lxml")
+                div = soup.find("div", attrs={"class": "konten-tengah"})
                 link = div.find_all("h2")
                 for h2 in link:
                     data = dict()
@@ -237,15 +210,11 @@ class Anigrab:
                 data = dict()
                 data["error"] = "404 Not Found"
                 self.result["awbatch"].append(data)
+
         elif site == "meowbatch":
             try:
-                cnx = requests.get(
-                    self.url.get("meowbatch"),
-                    params=self.query.get("meowbatch"),
-                    headers=self.header
-                )
-                soup = BeautifulSoup(cnx.text, "lxml")
-                div = soup.find("div",attrs={"class":"post-content-container"})
+                soup = BeautifulSoup(self._request(site).text, "lxml")
+                div = soup.find("div", attrs={"class": "post-content-container"})
                 link = div.find_all("a", attrs={"class": "post-title"})
                 data = dict()
                 for url in link:
