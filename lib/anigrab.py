@@ -96,8 +96,8 @@ class Anigrab:
                 soup = BeautifulSoup(self._request(site).text, "lxml")
                 div = soup.find("div", attrs={"class": "allgreen"})
                 link = div.find_all("a")
-                data = dict()
                 for a in link:
+                    data = dict()
                     data["link"] = a.get("href")
                     data["title"] = a.get("title")
                     self.result["animesave"].append(data)
