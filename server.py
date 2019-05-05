@@ -54,12 +54,6 @@ def getData(website, keyword):
             t.join()
     return anime.result
 
-@app.before_request
-def bef():
-    for a in anime.result:
-        anime.result[a].clear()
-
-
 @app.route("/", methods=["POST", "GET"])
 def vIndex():
     form = aniForm(csrf_disabled=False)
@@ -68,6 +62,8 @@ def vIndex():
     }
     if request.method == "POST":
         if form.validate_on_submit():
+            for a in anime.result:
+                anime.result[a].clear()
             data = getData(website=form.listSite.data, keyword=form.keyword.data)
             waktu = time.strftime("%d-%m-%Y %H:%M:%S", time.localtime())
             context["data"] = data
@@ -75,20 +71,9 @@ def vIndex():
                 if len(data[site]) >= 1:
                     for b in data[site]:
                         if "error" in b:
-                            print("{bRed}[{website}][{time}] {log}{bReset}".format(
-                                website=site,
-                                time=waktu,
-                                log=b["error"],
-                                bRed=Back.RED,
-                                bReset=Back.RESET))
+                            print(f"{Back.RED}[{site}][{waktu}] {b.get('error')}{Back.RESET}")
                         else:
-                            print("{fYellow}[{website}]{fReset}{fGreen}[{time}]{fReset} {log}".
-                                  format(website=site,
-                                         time=waktu,
-                                         log=b["title"],
-                                         fGreen=Fore.GREEN,
-                                         fYellow=Fore.YELLOW,
-                                         fReset=Fore.RESET))
+                            print(f"{Fore.YELLOW}[{site}]{Fore.RESET}{Fore.GREEN}[{waktu}]{Fore.RESET} {b.get('title')}")
     return render_template("index.html", **context)
 
 
