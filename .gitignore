@@ -1,2 +1,6 @@
 __pycache__ 
 result.txt
+src/__pycache__
+src/libs/__pycache__
+src/forms/__pycache__
+src/views/__pycache__
